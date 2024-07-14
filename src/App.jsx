@@ -1,35 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React, { useState } from 'react';
+import * as XLSX from 'xlsx';
+import FileUpload from './components/FileUpload';
+import MCQ from './components/MCQ';
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App= ()=> {
+  const [mcqs, setMcqs] = useState([]);
+
+  const handleFileUpload = (data) => {    // for handling file upload
+    const workbook = XLSX.read(data, { type: 'array' });
+    const sheetName = workbook.SheetNames[0]; 
+    const worksheet = workbook.Sheets[sheetName];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet);  //used for converting xlsx sheet to json data
+
+    const formattedMCQs = jsonData.map((item) => ({   // for formatting mcqs
+      question: item.Question,
+      options: [item.Option1, item.Option2, item.Option3, item.Option4],
+      correct: item.CorrectAnswer,
+    }));
+
+    setMcqs(formattedMCQs); // for updating the state
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="app">
+      <h1>MCQ App</h1>
+      <FileUpload onFileUpload={handleFileUpload} />
+      {mcqs.length > 0 && <MCQ mcqs={mcqs} />}
+    </div>
+  );
+};
 
-export default App
+export default App;
