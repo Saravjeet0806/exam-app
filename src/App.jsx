@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import FileUpload from './components/FileUpload';
 import MCQ from './components/MCQ';
+import Header from './components/Header'
 import './App.css';
 import * as XLSX from 'xlsx';
-
 const App = () => {
   const [mcqs, setMcqs] = useState([]);
   const [fileUploaded, setFileUploaded] = useState(false);
@@ -25,6 +25,7 @@ const App = () => {
 
   return (
     <div className="app">
+      <Header/>
       <h1>MCQ App</h1>
       {!fileUploaded && <FileUpload onFileUpload={handleFileUpload} />}
       {mcqs.length > 0 && <MCQ mcqs={mcqs} />}
