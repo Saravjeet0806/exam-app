@@ -31,9 +31,9 @@ const App = () => {
       <h1>MCQ App</h1>
       {!fileUploaded && <FileUpload onFileUpload={handleFileUpload} />}
       {mcqs.length > 0 && <MCQ mcqs={mcqs} />}
-      <section id="about">
+      {!fileUploaded && <section id="about">
         <About />
-      </section>
+      </section>}
       <section id="contact"><ContactUs/></section>
     </div>
   );
