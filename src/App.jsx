@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import FileUpload from './components/FileUpload';
 import MCQ from './components/MCQ';
 import Header from './components/Header'
+import About from './components/About';
+import ContactUs from './components/ContactUs';
 import './App.css';
 import * as XLSX from 'xlsx';
 const App = () => {
@@ -29,6 +31,10 @@ const App = () => {
       <h1>MCQ App</h1>
       {!fileUploaded && <FileUpload onFileUpload={handleFileUpload} />}
       {mcqs.length > 0 && <MCQ mcqs={mcqs} />}
+      <section id="about">
+        <About />
+      </section>
+      <section id="contact"><ContactUs/></section>
     </div>
   );
 };
